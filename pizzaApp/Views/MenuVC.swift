@@ -1,10 +1,8 @@
 import UIKit
 
-let actionMass = ["1","2"]
-let typeMass = ["1","2","3","4"]
-let pizzaMass = ["5","5","5","5"]
 class MenuVC: UIViewController {
-
+    
+    var selectedIndex: IndexPath?
     var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +32,7 @@ func createLayout() -> UICollectionViewCompositionalLayout {
     section.contentInsets = NSDirectionalEdgeInsets(top: 104, leading: 0, bottom: 50, trailing: 0)
 
     // section_2
-    let itemSizeTwo = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(1.0))
+    let itemSizeTwo = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25), heightDimension: .fractionalHeight(1.0))
     let itemTwo = NSCollectionLayoutItem(layoutSize: itemSizeTwo)
 
     let groupSizeTwo = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(100))
@@ -54,7 +52,7 @@ func createLayout() -> UICollectionViewCompositionalLayout {
     
     let sectionThree = NSCollectionLayoutSection(group: groupThree)
     sectionThree.interGroupSpacing = 50
-    sectionThree.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 50, trailing: 8)
+    sectionThree.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 60, trailing: 8)
 
 
     
@@ -81,7 +79,7 @@ extension MenuVC: UICollectionViewDataSource {
         case 0:
             return 2
         case 1:
-            return 4
+            return 5
         case 2:
             return 4
         default:
@@ -103,20 +101,32 @@ extension MenuVC: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TypeCell", for: indexPath) as! TypeCell
             switch indexPath.row {
             case 0:
-                cell.buttonType.setTitle("Пицца", for: .normal)
-                return cell
+                cell.customButton.setTitle("Пицца", for: .normal)
             case 1:
-                cell.buttonType.setTitle("Комбо", for: .normal)
-                return cell
+                cell.customButton.setTitle("Комбо", for: .normal)
             case 2:
-                cell.buttonType.setTitle("Десерты", for: .normal)
-                return cell
+                cell.customButton.setTitle("Десерты", for: .normal)
             case 3:
-                cell.buttonType.setTitle("Напитки", for: .normal)
-                return cell
+                cell.customButton.setTitle("Напитки", for: .normal)
+            case 4:
+                cell.customButton.setTitle("Добавки", for: .normal)
             default:
-                return cell
+                break
             }
+            if selectedIndex == indexPath {
+                cell.customButton.backgroundColor = .pinkButton
+                cell.customButton.setTitleColor(.systemPink, for: .normal)
+                cell.customButton.layer.borderWidth = 0
+            } else {
+                cell.customButton.backgroundColor = .white
+                cell.customButton.setTitleColor(.pinkButton, for: .normal)
+                cell.customButton.layer.borderWidth = 2
+            }
+            cell.buttonAction = { [weak self] in
+                self?.selectedIndex = indexPath
+                self?.collectionView.reloadData()
+            }
+            return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PizzaCell", for: indexPath) as! PizzaCell
             switch indexPath.row {

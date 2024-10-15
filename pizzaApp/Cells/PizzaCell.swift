@@ -23,6 +23,18 @@ class PizzaCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    let customButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("от 345 р", for: .normal)
+        button.setTitleColor(.systemPink, for: .normal)
+        button.backgroundColor = .white
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.systemPink.cgColor
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     override init(frame: CGRect) {
         super .init(frame: frame)
         setSubviews()
@@ -32,6 +44,7 @@ class PizzaCell: UICollectionViewCell {
         contentView.addSubview(imagePizza)
         contentView.addSubview(namePizza)
         contentView.addSubview(secondText)
+        contentView.addSubview(customButton)
     }
     func makeConstraints() {
         NSLayoutConstraint.activate([
@@ -47,6 +60,12 @@ class PizzaCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             secondText.topAnchor.constraint(equalTo: namePizza.bottomAnchor, constant: 10),
             secondText.leadingAnchor.constraint(equalTo: namePizza.leadingAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            customButton.topAnchor.constraint(equalTo: secondText.bottomAnchor, constant: 8),
+            customButton.leadingAnchor.constraint(equalTo: secondText.leadingAnchor, constant: 90),
+            customButton.heightAnchor.constraint(equalToConstant: 40),
+            customButton.widthAnchor.constraint(equalToConstant: 100),
         ])
     }
     
